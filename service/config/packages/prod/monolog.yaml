@@ -1,0 +1,16 @@
+monolog:
+  handlers:
+    filter_for_errors:
+      type: fingers_crossed
+      level: error
+      handler: file_log
+    file_log:
+      type: stream
+      level: error
+      path: '/var/log/%kernel.environment%.log'
+      buffer_size: 50 # How many messages should be saved? Prevent memory leaks
+      tag: 'Skeleton Service'
+    syslog_handler:
+      type: syslog
+      level: error
+

@@ -1,0 +1,63 @@
+framework:
+  messenger:
+    # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
+    failure_transport: failed
+
+    transports:
+      # https://symfony.com/doc/current/messenger.html#transport-configuration
+      outgoing:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        retry_strategy:
+          max_retries: 4
+          # millisexconds delay
+          delay: 1000
+          # causes the delay to be higher before each retry
+          # e.g. 1 second delay, 2 seconds, 4 seconds
+          multiplier: 4
+          max_delay: 0
+          # override all of this with a service that
+          # implements Symfony\Component\Messenger\Retry\RetryStrategyInterface
+          # service: null
+        serializer: Service\Services\Serializer
+        options:
+          exchange:
+            name: skeleton.outgoing.queue
+          queues:
+            skeleton.outgoing.queue: ~
+
+      incoming:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        retry_strategy:
+          max_retries: 4
+          # millisexconds delay
+          delay: 1000
+          # causes the delay to be higher before each retry
+          # e.g. 1 second delay, 2 seconds, 4 seconds
+          multiplier: 4
+          max_delay: 0
+          # override all of this with a service that
+          # implements Symfony\Component\Messenger\Retry\RetryStrategyInterface
+          # service: null
+        serializer: Service\Services\Serializer
+        options:
+          exchange:
+            name: skeleton.incoming.queue
+          queues:
+            skeleton.incoming.queue: ~
+      failed:
+        dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+        options:
+          exchange:
+            name: scheduler.incoming.queue.dlx
+          queues:
+            scheduler.incoming.queue.dlx: ~
+
+
+      # failed: 'doctrine://default?queue_name=failed'
+      # sync: 'sync://'
+
+    routing:
+      # Route your messages to the transports
+      'Service\Message\DefaultMessage': outgoing
+      #'Service\Message\DefaultMessage': incoming
+

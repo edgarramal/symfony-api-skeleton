@@ -1,0 +1,16 @@
+version: '3'
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: php-apache:8-apache-buster
+    ports:
+      - "127.0.0.1:8832:80"
+    volumes:
+      - ./service:/var/www/service:rw
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "5672:5672"
+      - "15672:15672"

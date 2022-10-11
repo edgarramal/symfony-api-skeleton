@@ -1,0 +1,4 @@
+index:
+    path:       /skeleton
+    controller: Service\Controller\DefaultController::index
+    methods:    GET|HEAD
