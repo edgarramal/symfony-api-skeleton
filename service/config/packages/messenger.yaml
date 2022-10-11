@@ -48,9 +48,9 @@ framework:
         dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
         options:
           exchange:
-            name: scheduler.incoming.queue.dlx
+            name: skeleton.incoming.queue.dlx
           queues:
-            scheduler.incoming.queue.dlx: ~
+            skeleton.incoming.queue.dlx: ~
 
 
       # failed: 'doctrine://default?queue_name=failed'

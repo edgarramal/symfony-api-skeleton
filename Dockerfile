@@ -1,24 +1,10 @@
 FROM php:8.1-apache
 
-# Add required PHP extensions
-RUN apt-get update && apt-get install -y \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libpng-dev \
-        libzip-dev \
-        librabbitmq-dev \
-        libssh-dev \
-        zip \
-        unzip \
-        wget \
-        zlib1g-dev \
-        libicu-dev \
-        libpq-dev \
-        supervisor \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd zip intl
-
-
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get install -y git
+RUN apt-get install -y zip unzip libzip-dev libssl-dev librabbitmq-dev postgresql libpq-dev supervisor cron
+RUN docker-php-ext-install zip pdo pdo_pgsql
 
 RUN pecl install amqp
 RUN docker-php-ext-enable amqp
